@@ -444,13 +444,31 @@ body {
   cursor: not-allowed; 
 }
 
+/* Upgraded Footer Container */
 .about-us { 
   text-align: center; 
   padding: 60px 20px; 
+  /* A subtle inner shadow to separate it slightly from the section above */
+  box-shadow: inset 0px 10px 20px rgba(0,0,0,0.5);
 }
 
+/* Upgraded Footer Header */
 .about-us h2 { 
-  text-shadow: 3px 3px 0px #2ecc71; 
+  font-size: 2.5rem; /* Makes it nice and chunky */
+  text-transform: uppercase; /* Adds to that bold, systemic change vibe */
+  letter-spacing: 2px;
+  color: white; 
+  /* Layered shadow: The hard green offset + a subtle green neon glow */
+  text-shadow: 4px 4px 0px #2ecc71, 0px 0px 15px rgba(46, 204, 113, 0.3); 
+  transition: all 0.3s ease; 
+  cursor: default;
+}
+
+/* 🤜🤛 The interactive hover effect for extra points */
+.about-us h2:hover {
+  /* Flips the shadow direction and intensifies the glow! */
+  text-shadow: -4px -4px 0px #2ecc71, 0px 0px 25px rgba(46, 204, 113, 0.6); 
+  transform: translateY(-2px);
 }
 
 /* animations yay */

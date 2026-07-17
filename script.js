@@ -1,15 +1,12 @@
 // ==========================================
 // SDG WEBATHON - FULL STACK JAVASCRIPT LOGIC
-// Update: BRO WE HAVE A REAL DATABASE NOW ☁️
+// Update: Added ability to list YOUR OWN items dynamically to the DOM and DB!
 // ==========================================
 
-// 1. IMPORT FIREBASE (Using your exact v12.16.0 links)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
-// I added Firestore so we can save data to the cloud!
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
-// 2. YOUR FIREBASE CONFIG
 const firebaseConfig = {
     apiKey: "AIzaSyBNO8SiOBW49CqL7YgHd572pF9mikE7ABo",
     authDomain: "ecofootprint-9c4ed.firebaseapp.com",
@@ -20,19 +17,15 @@ const firebaseConfig = {
     measurementId: "G-NCNFZTHKS4"
 };
 
-// 3. INITIALIZE THE APP & DATABASE
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
-console.log("%c🌿 TEAM CODEGREENS CONNECTED TO THE CLOUD! ☁️", "color: #2ecc71; font-size: 20px; font-weight: bold;");
-console.log("Database initialized. Ready to save the world.");
+console.log("%c🌿 TEAM CODEGREENS FULL STACK CONNECTED! ☁️", "color: #2ecc71; font-size: 20px; font-weight: bold;");
 
 // ==========================================
-// POLICY SIMULATOR LOGIC
+// 1. POLICY SIMULATOR LOGIC
 // ==========================================
-
-// Notice the 'async' word here? That lets us wait for the cloud database to save!
 document.getElementById('footprintForm').addEventListener('submit', async function(event) {
     event.preventDefault(); 
 
@@ -41,16 +34,13 @@ document.getElementById('footprintForm').addEventListener('submit', async functi
     let q3 = Number(document.getElementById("q3").value);
     let q4 = Number(document.getElementById("q4").value);
     let q5 = Number(document.getElementById("q5").value);
-
     let totalScore = q1 + q2 + q3 + q4 + q5;
 
-    // 🔥 BIG BRAIN CLOUD MOVE: Save the score to Firebase Firestore!
     try {
         await addDoc(collection(db, "simulatorScores"), {
             score: totalScore,
             timestamp: new Date().toISOString()
         });
-        console.log("Bro we just saved a score of " + totalScore + " to the cloud!");
     } catch (e) {
         console.error("Database error bro: ", e);
     }
@@ -77,7 +67,7 @@ document.getElementById('footprintForm').addEventListener('submit', async functi
     } else {
         emoji = "🏭❌";
         barColor = "#ff5252"; 
-        feedbackText.innerHTML = "🚨 DISASTER. Continuing the status quo with fossil fuels, deforestation, and a linear 'throw-away' economy guarantees severe global warming. We need radical policy shifts immediately.";
+        feedbackText.innerHTML = "🚨 DISASTER. Continuing the status quo guarantees severe global warming. We need radical policy shifts immediately.";
         feedbackText.style.color = "#c0392b"; 
     }
 
@@ -105,33 +95,81 @@ document.getElementById('footprintForm').addEventListener('submit', async functi
 });
 
 // ==========================================
-// THE GIVE & TAKE BOARD CLOUD LOGIC
+// 2. THE GIVE & TAKE BOARD LOGIC
 // ==========================================
 
-// async function so we can push to Firebase
+// A. LIST A NEW ITEM
+document.getElementById('addItemForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Stop page reload
+
+    // Grab values from the new form
+    let itemName = document.getElementById('newItemName').value;
+    let itemIcon = document.getElementById('newItemIcon').value;
+    let listerName = document.getElementById('newListerName').value;
+    let itemDesc = document.getElementById('newItemDesc').value;
+    
+    // Generate a unique ID using the current time
+    let uniqueId = "item-" + Date.now();
+
+    try {
+        // Push the new item to Firebase
+        await addDoc(collection(db, "listedItems"), {
+            id: uniqueId,
+            name: itemName,
+            icon: itemIcon,
+            lister: listerName,
+            description: itemDesc,
+            status: "available",
+            timestamp: new Date().toISOString()
+        });
+
+        alert("📦 Item listed successfully in the cloud! Thanks for reducing waste.");
+
+        // Bro, this is dynamic DOM manipulation. We build the HTML card from JS!
+        let newCardHTML = `
+            <div class="item-card" id="card-${uniqueId}">
+                <div class="card-icon">${itemIcon}</div>
+                <h3>${itemName}</h3>
+                <p class="item-lister">Listed by: ${listerName}</p>
+                <p>${itemDesc}</p>
+                <button class="claim-btn" id="btn-${uniqueId}" onclick="claimItem('${uniqueId}')">CLAIM FOR FREE</button>
+            </div>
+        `;
+
+        // Inject the new card at the very beginning of our container
+        document.getElementById('give-take-cards').insertAdjacentHTML('afterbegin', newCardHTML);
+
+        // Clear the form for the next item
+        document.getElementById('addItemForm').reset();
+
+    } catch (e) {
+        console.error("Failed to list item: ", e);
+        alert("Error connecting to database. Please try again.");
+    }
+});
+
+// B. CLAIM AN ITEM
 async function claimItem(itemId) {
     let btn = document.getElementById("btn-" + itemId);
     
-    // Change UI instantly so it feels fast
     btn.innerHTML = "CLAIMING... ⏳";
     btn.disabled = true;
 
     try {
-        // 🔥 Push the claim to your live Firebase database!
         await addDoc(collection(db, "claimedItems"), {
             itemClaimed: itemId,
             status: "claimed",
             timestamp: new Date().toISOString()
         });
 
-        alert("♻️ Circular Economy WIN! Claim recorded in the cloud database. Go meet the senior in the cafeteria to pick it up!");
+        alert("♻️ Circular Economy WIN! Claim recorded. Go meet them to pick it up!");
 
         btn.innerHTML = "CLAIMED ❌";
         document.getElementById("card-" + itemId).style.borderColor = "#9e9e9e";
         document.getElementById("card-" + itemId).style.boxShadow = "none";
 
     } catch (e) {
-        console.error("Failed to claim item in DB:", e);
+        console.error("Failed to claim item:", e);
         alert("Database error! Could not claim.");
         btn.innerHTML = "CLAIM FOR FREE";
         btn.disabled = false;
@@ -147,8 +185,6 @@ function resetQuiz() {
     document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
 }
 
-// ⚠️ MEGA IMPORTANT JAVASCRIPT HACK ⚠️
-// Because we are using type="module", functions aren't global anymore.
-// We HAVE to attach these to the window object so the HTML onclick="" buttons can find them!
+// ⚠️ We still need to attach these to window so HTML onClick works!
 window.claimItem = claimItem;
 window.resetQuiz = resetQuiz;

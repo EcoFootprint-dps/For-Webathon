@@ -1,8 +1,8 @@
-// firebase imports
+// importing firebase stuff from the web
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, updateDoc, doc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
-// DO NOT TOUCH THIS CONFIG
+// DO NOT TOUCH THIS CONFIG - setting up my database
 const firebaseConfig = {
     apiKey: "AIzaSyBNO8SiOBW49CqL7YgHd572pF9mikE7ABo",
     authDomain: "ecofootprint-9c4ed.firebaseapp.com",
@@ -16,120 +16,129 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// --- QUIZ LOGIC ---
-document.getElementById('footprintForm').addEventListener('submit', async function(e) {
-    e.preventDefault(); // stops page from refreshing
+// -----------------------------
+// QUIZ SECTION LOGIC
+// -----------------------------
+document.getElementById('footprintForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); // don't reload the page on submit pls
 
-    let val1 = Number(document.getElementById("q1").value);
-    let val2 = Number(document.getElementById("q2").value);
-    let val3 = Number(document.getElementById("q3").value);
-    let val4 = Number(document.getElementById("q4").value);
-    let val5 = Number(document.getElementById("q5").value);
+    // get all the answers from the dropdowns
+    let a1 = parseInt(document.getElementById("q1").value) || 0;
+    let a2 = parseInt(document.getElementById("q2").value) || 0;
+    let a3 = parseInt(document.getElementById("q3").value) || 0;
+    let a4 = parseInt(document.getElementById("q4").value) || 0;
+    let a5 = parseInt(document.getElementById("q5").value) || 0;
     
-    let total = val1 + val2 + val3 + val4 + val5;
+    let finalScore = a1 + a2 + a3 + a4 + a5;
 
-    // save it to cloud
+    // save score to the cloud secretly
     try {
-        await addDoc(collection(db, "simulatorScores"), {
-            score: total,
-            timeSaved: new Date().toISOString()
+        await addDoc(collection(db, 'simulatorScores'), {
+            score: finalScore,
+            date: new Date().toString()
         });
-    } catch (err) {
-        console.log("firebase error: ", err);
+    } catch (e) {
+        console.log("bruh firebase error: ", e);
     }
 
-    let feedback = document.getElementById("feedbackText");
-    let emoji = "";
-    let barColor = "";
+    let feedbackMsg = document.getElementById("feedbackText");
+    let faceEmoji = "";
+    let colorHex = "";
 
-    // set up the ui based on score
-    if (total >= 80) {
-        emoji = "🌍🏆";
-        barColor = "#2ecc71"; // green
-        feedback.innerHTML = "🔥 INCREDIBLE! You implemented a true sustainable framework. By shifting to renewables and enforcing a circular economy, we can reach Net-Zero!";
-        feedback.style.color = "#27ae60"; 
-    } else if (total >= 40 && total < 80) {
-        emoji = "⚠️📉";
-        barColor = "#ffeb3b"; // yellow
-        feedback.innerHTML = "🌱 A GOOD START. But half-measures like EVs aren't enough. We need systemic shifts in agriculture and public transit. Try again!";
-        feedback.style.color = "#d35400"; 
+    // update the ui colors and text based on how well they did
+    if (finalScore >= 80) {
+        faceEmoji = "🌍🏆";
+        colorHex = "green"; 
+        feedbackMsg.innerText = "🔥 INCREDIBLE! You implemented a true sustainable framework. By shifting to renewables and enforcing a circular economy, we can reach Net-Zero!";
+        feedbackMsg.style.color = "green"; 
+    } else if (finalScore >= 40 && finalScore < 80) {
+        faceEmoji = "⚠️📉";
+        colorHex = "orange"; 
+        feedbackMsg.innerText = "🌱 A GOOD START. But half-measures like EVs aren't enough. We need systemic shifts in agriculture and public transit. Try again!";
+        feedbackMsg.style.color = "orange"; 
     } else {
-        emoji = "🏭❌";
-        barColor = "#ff5252"; // red
-        feedback.innerHTML = "🚨 DISASTER. Continuing the status quo guarantees severe global warming. We need radical policy shifts immediately.";
-        feedback.style.color = "#c0392b"; 
+        faceEmoji = "🏭❌";
+        colorHex = "red"; 
+        feedbackMsg.innerText = "🚨 DISASTER. Continuing the status quo guarantees severe global warming. We need radical policy shifts immediately.";
+        feedbackMsg.style.color = "red"; 
     }
 
-    document.getElementById("resultEmoji").innerHTML = emoji;
-    document.getElementById('footprintForm').style.display = 'none';
-    document.getElementById("resultBox").style.display = "block";
+    document.getElementById("resultEmoji").innerText = faceEmoji;
+    document.getElementById('footprintForm').style.display = 'none'; // hide quiz
+    document.getElementById("resultBox").style.display = "block"; // show results
 
-    // counter animation
-    let count = 0;
-    document.getElementById("scoreText").innerHTML = "0"; 
+    // cool little counting animation I found online
+    let counter = 0;
+    document.getElementById("scoreText").innerText = "0"; 
     
-    let timer = setInterval(() => {
-        if (count >= total) {
-            clearInterval(timer);
-            document.getElementById("scoreText").innerHTML = total; 
+    let timerThing = setInterval(() => {
+        if (counter >= finalScore) {
+            clearInterval(timerThing);
+            document.getElementById("scoreText").innerText = finalScore; 
         } else {
-            count++;
-            document.getElementById("scoreText").innerHTML = count;
+            counter++;
+            document.getElementById("scoreText").innerText = counter;
         }
     }, 20); 
 
-    // fill the progress bar
+    // animate the bar filling up
     setTimeout(() => {
-        document.getElementById("barFill").style.width = total + "%";
-        document.getElementById("barFill").style.backgroundColor = barColor;
-    }, 100);
+        document.getElementById("barFill").style.width = finalScore + "%";
+        document.getElementById("barFill").style.backgroundColor = colorHex;
+    }, 150);
 });
 
-// --- THE LIVE BOARD LOGIC ---
-const boardRef = collection(db, "listedItems");
-const q = query(boardRef, orderBy("timestamp", "desc"));
 
-// listen for database changes instantly
-onSnapshot(q, (snapshot) => {
-    let boardHTML = document.getElementById('live-board');
-    boardHTML.innerHTML = ""; // clear old stuff
+// -----------------------------
+// LIVE BOARD LOGIC
+// -----------------------------
+const boardDB = collection(db, "listedItems");
+const myQuery = query(boardDB, orderBy("timestamp", "desc"));
+
+// this updates the board instantly when someone posts without needing to refresh
+onSnapshot(myQuery, (snap) => {
+    let boardDiv = document.getElementById('live-board');
+    boardDiv.innerHTML = ""; // clear old data first
     
-    let activeItems = 0; 
+    let itemsCount = 0; 
 
-    snapshot.forEach((docSnap) => {
-        let item = docSnap.data();
-        let id = docSnap.id; 
+    snap.forEach((docData) => {
+        let item = docData.data();
+        let itemId = docData.id; 
 
-        // if it's already claimed, ignore it
+        // if someone already took it, just skip rendering it
         if (item.status === "claimed") {
             return; 
         }
 
-        activeItems++; 
+        itemsCount++; 
 
-        let makeCard = `
-            <div class="item-card" id="card-${id}">
+        // build the html for the item card
+        let cardHTML = `
+            <div class="item-card" id="card-${itemId}">
                 <div class="card-icon">${item.icon}</div>
                 <h3>${item.name}</h3>
                 <p class="lister-name">Listed by: ${item.lister}</p>
                 <p>${item.description}</p>
-                <button class="grab-btn" id="btn-${id}" onclick="claimItem('${id}')">CLAIM FOR FREE</button>
+                <button class="grab-btn" id="btn-${itemId}" onclick="claimIt('${itemId}')">CLAIM FOR FREE</button>
             </div>
         `;
-        boardHTML.insertAdjacentHTML('beforeend', makeCard);
+        boardDiv.innerHTML += cardHTML;
     });
     
-    if (activeItems === 0) {
-        boardHTML.innerHTML = "<h3 style='width:100%; text-align:center; color:#555;'>No items available right now. Be the first to list something! ♻️</h3>";
+    if (itemsCount == 0) {
+        boardDiv.innerHTML = "<h3 style='width:100%; text-align:center; color:gray;'>No items available right now. Be the first to list something! ♻️</h3>";
     }
 });
 
-// adding a new item
-document.getElementById('addItemForm').addEventListener('submit', async function(e) {
-    e.preventDefault(); 
 
-    let formBtn = document.querySelector(".post-btn");
-    formBtn.innerHTML = "LISTING... ⏳";
+// when someone submits the new item form
+document.getElementById('addItemForm').addEventListener('submit', async function(ev) {
+    ev.preventDefault(); 
+
+    let submitBtn = document.querySelector(".post-btn") || document.querySelector("button[type='submit']");
+    let originalText = submitBtn.innerText;
+    submitBtn.innerText = "UPLOADING... ⏳";
     
     try {
         await addDoc(collection(db, "listedItems"), {
@@ -141,88 +150,86 @@ document.getElementById('addItemForm').addEventListener('submit', async function
             timestamp: new Date().toISOString()
         });
 
-        alert("📦 Item is live on the board!");
+        alert("📦 It's live on the board!");
         document.getElementById('addItemForm').reset();
 
     } catch (err) {
-        console.error("error uploading: ", err);
-        alert("Network error.");
-    } finally {
-        formBtn.innerHTML = "LIST ITEM SECURELY 🔒";
-    }
+        console.log("error saving item: ", err);
+        alert("Oops, network error.");
+    } 
+    
+    submitBtn.innerText = originalText;
 });
 
-// clicking claim on an item
-window.claimItem = async (id) => {
-    let userName = prompt("♻️ Awesome! Enter your name & class so the owner knows who to give it to:");
 
-    // if they click cancel
-    if (!userName || userName.trim() === "") {
+// putting this on window so the inline html onclick can actually see it lol
+window.claimIt = async function(id) {
+    let username = prompt("♻️ Awesome! Enter your name & class so the owner knows who to give it to:");
+
+    // if they cancel the prompt just stop
+    if (!username || username.trim() == "") {
         return; 
     }
 
-    let cardDiv = document.getElementById("card-" + id);
-    let claimBtn = document.getElementById("btn-" + id);
+    let theCard = document.getElementById("card-" + id);
+    let theBtn = document.getElementById("btn-" + id);
 
-    // change UI instantly so it feels fast
-    if(claimBtn) {
-        claimBtn.innerHTML = "🎉 CLAIMED BY " + userName.toUpperCase() + "!";
-        claimBtn.style.backgroundColor = "#2ecc71"; 
-        claimBtn.style.color = "#fff";
-        claimBtn.disabled = true;
+    // fake the ui update first so it feels super fast to the user
+    if(theBtn) {
+        theBtn.innerText = "🎉 CLAIMED BY " + username.toUpperCase() + "!";
+        theBtn.style.background = "green"; 
+        theBtn.style.color = "white";
+        theBtn.disabled = true;
     }
 
-    if(cardDiv) {
-        cardDiv.style.borderColor = "#2ecc71";
-        cardDiv.style.boxShadow = "8px 8px 0px #2ecc71";
+    if(theCard) {
+        theCard.style.borderColor = "green";
     }
 
-    // fade it out after 1.5s
+    // wait a second then actually update database
     setTimeout(async () => {
         
-        if (cardDiv) {
-            cardDiv.style.opacity = "0";
-            cardDiv.style.transform = "scale(0.9) translateY(20px)";
+        if (theCard) {
+            theCard.style.opacity = "0.3"; // fade it out a bit
         }
 
-        setTimeout(async () => {
-            try {
-                // tell firebase it was claimed
-                const itemDoc = doc(db, "listedItems", id);
-                await updateDoc(itemDoc, {
-                    status: "claimed",
-                    claimedBy: userName
-                });
-                
-            } catch (err) {
-                console.log("Firebase error: ", err);
-                alert("🚨 ERROR: Connection failed! Check console.");
-                
-                // bring it back if it failed
-                if(claimBtn) {
-                    claimBtn.innerHTML = "CLAIM FOR FREE";
-                    claimBtn.style.backgroundColor = "#ffeb3b";
-                    claimBtn.style.color = "#000";
-                    claimBtn.disabled = false;
-                }
-                if(cardDiv) {
-                    cardDiv.style.borderColor = "#000";
-                    cardDiv.style.boxShadow = "8px 8px 0px #ffeb3b";
-                    cardDiv.style.opacity = "1";
-                    cardDiv.style.transform = "none";
-                }
+        try {
+            // update firebase
+            let docRef = doc(db, "listedItems", id);
+            await updateDoc(docRef, {
+                status: "claimed",
+                claimedBy: username
+            });
+            
+        } catch (err) {
+            console.log("firebase claim error: ", err);
+            alert("🚨 ERROR: Couldn't connect to server!");
+            
+            // if it failed, put the button back to normal
+            if(theBtn) {
+                theBtn.innerText = "CLAIM FOR FREE";
+                theBtn.style.background = "";
+                theBtn.style.color = "black";
+                theBtn.disabled = false;
             }
-        }, 300);
+            if(theCard) {
+                theCard.style.borderColor = "black";
+                theCard.style.opacity = "1";
+            }
+        }
 
-    }, 1500); 
+    }, 800); 
 };
 
-// reset button function
-window.resetQuiz = () => {
+
+// function for the try again button
+window.resetQuiz = function() {
     document.getElementById("footprintForm").reset();
-    document.getElementById("scoreText").innerHTML = "0";
+    document.getElementById("scoreText").innerText = "0";
     document.getElementById("barFill").style.width = "0%";
     document.getElementById("resultBox").style.display = "none";
     document.getElementById("footprintForm").style.display = "block";
-    document.getElementById('sim-area').scrollIntoView({ behavior: 'smooth' });
+    
+    // scroll back up to the top of the quiz
+    window.scrollTo(0, document.getElementById('sim').offsetTop);
 };

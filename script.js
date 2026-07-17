@@ -1,57 +1,81 @@
 // ==========================================
-// SDG WEBATHON - TEAM CODEGREENS (CLASS 9)
-// JAVASCRIPT LOGIC FOR ECOFOOTPRINT RUNNING PROPERLY
+// SDG WEBATHON - JAVASCRIPT LOGIC
+// getting this to work took like 4 hours no cap
 // ==========================================
 
-function calculateScore() {
-    // Fetching values using old school DOM methods because querySelector was getting weird errors
-    var q1Value = document.getElementById("q1").value;
-    var q2Value = document.getElementById("q2").value;
-    var q3Value = document.getElementById("q3").value;
-    var q4Value = document.getElementById("q4").value;
-    var q5Value = document.getElementById("q5").value;
+document.getElementById('footprintForm').addEventListener('submit', function(event) {
+    // stopping the page from reloading when you click submit. 
+    // this bug literally made me rage quit earlier.
+    event.preventDefault(); 
 
-    // VALIDATION ALERT!! Checks if the user left something blank because it ruins the math sum
-    if (q1Value === "" || q2Value === "" || q3Value === "" || q4Value === "" || q5Value === "") {
-        alert("🚨 WAIT A MINUTE! You missed a question! Please answer all 5 questions to save the Earth!");
-        return; 
-    }
-
-    // Converting strings to real integers so we can actually add them together
-    var score1 = parseInt(q1Value);
-    var score2 = parseInt(q2Value);
-    var score3 = parseInt(q3Value);
-    var score4 = parseInt(q4Value);
-    var score5 = parseInt(q5Value);
+    // Fetching values using old school DOM methods but with 'Number()' so it actually does math
+    // and using 'let' because 'var' is for boomers
+    let q1 = Number(document.getElementById("q1").value);
+    let q2 = Number(document.getElementById("q2").value);
+    let q3 = Number(document.getElementById("q3").value);
+    let q4 = Number(document.getElementById("q4").value);
+    let q5 = Number(document.getElementById("q5").value);
 
     // Super simple formula we calculated ourselves
-    var totalScore = score1 + score2 + score3 + score4 + score5;
+    let totalScore = q1 + q2 + q3 + q4 + q5;
 
     // Grab the elements to push output data
-    var scoreDisplay = document.getElementById("scoreDisplay");
-    var feedbackText = document.getElementById("feedbackText");
-    var resultBox = document.getElementById("resultBox");
+    let scoreDisplay = document.getElementById("scoreDisplay");
+    let feedbackText = document.getElementById("feedbackText");
+    let resultBox = document.getElementById("resultBox");
+    let resultEmoji = document.getElementById("resultEmoji");
+    let scoreBarFill = document.getElementById("scoreBarFill");
 
-    scoreDisplay.innerHTML = totalScore;
+    let emoji = "";
+    let barColor = "";
 
     // IF-ELSE CHAINS FOR CUSTOM ALERTS BASED ON PERFORMANCE
     if (totalScore >= 40) {
+        emoji = "💀🔥";
+        barColor = "#ff5252"; // Red warning color
         feedbackText.innerHTML = "🚨 YIKES! Your carbon footprint is massive! You are consuming way too much energy and producing massive waste. You need to start walking to school, eating fewer burgers, and turning off your electronics right now!!!";
-        feedbackText.style.color = "#c0392b"; // Red warning color
+        feedbackText.style.color = "#c0392b"; 
     } else if (totalScore >= 20 && totalScore < 40) {
+        emoji = "⚠️🌱";
+        barColor = "#ffeb3b"; // Orange/Yellow color
         feedbackText.innerHTML = "⚠️ NOT BAD, BUT YOU CAN DO BETTER! You have average habits, but the planet needs heroes, not average citizens! Try to cut down your shower times and reuse your plastic items more often.";
-        feedbackText.style.color = "#d35400"; // Orange color
+        feedbackText.style.color = "#d35400"; 
     } else {
+        emoji = "🌿👑";
+        barColor = "#2ecc71"; // Green color
         feedbackText.innerHTML = "🌿 WOW!!! YOU ARE A GENUINE ECO-HERO! Your score is super low. The Earth absolutely loves you. Keep doing exactly what you are doing and teach your friends to do the same! 🤜🤛";
-        feedbackText.style.color = "#27ae60"; // Green color
+        feedbackText.style.color = "#27ae60"; 
     }
 
-    // Unhiding the box completely so the student can see their custom feedback
+    // Push the updated text and emoji to the HTML
+    scoreDisplay.innerHTML = totalScore;
+    resultEmoji.innerHTML = emoji;
+
+    // Unhiding the box completely so they can see their custom feedback
+    document.getElementById('footprintForm').style.display = 'none';
     resultBox.style.display = "block";
-}
+
+    // Animating the progress bar! (using a tiny timeout so the CSS animation actually triggers)
+    setTimeout(() => {
+        // max score is 50, so we divide by 50 to get the percentage for the width
+        let percentage = (totalScore / 50) * 100;
+        scoreBarFill.style.width = percentage + "%";
+        scoreBarFill.style.backgroundColor = barColor;
+    }, 100);
+});
 
 // Resetting the form here because it glitched out earlier and didn't clear selection values properly
 function resetQuiz() {
+    // clears the dropdowns
     document.getElementById("footprintForm").reset();
+    
+    // resets the bar width back to zero so it can re-animate next time
+    document.getElementById("scoreBarFill").style.width = "0%";
+    
+    // hides the results and brings the form back
     document.getElementById("resultBox").style.display = "none";
+    document.getElementById("footprintForm").style.display = "block";
+    
+    // smooth scrolls back up to the quiz title so they don't get lost
+    document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
 }

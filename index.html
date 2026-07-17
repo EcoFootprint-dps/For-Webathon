@@ -3,85 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Deploy real-world systemic changes to hit Net-Zero!">
-    
     <title>EcoFootprint - Real Climate Solutions 🌍</title>
-    
+    <!-- linking the stylesheet finally -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="logo">🌿 EcoFootprint</div>
+    <!-- top nav -->
+    <header class="top-nav">
+        <div class="site-logo">🌿 EcoFootprint</div>
         <nav>
-            <a href="#hero">Overview</a>
-            <a href="#quiz">Policy Simulator</a>
-            <a href="#give-take">Give & Take</a>
-            <a href="#about">The Devs</a>
+            <a href="#top-banner">Overview</a>
+            <a href="#sim-area">Policy Simulator</a>
+            <a href="#board-area">Give & Take</a>
+            <a href="#footer-about">The Devs</a>
         </nav>
     </header>
 
     <main>
-        <!-- HERO SECTION -->
-        <section id="hero" class="hero-section">
-            <div class="hero-content">
+        <!-- banner -->
+        <section id="top-banner" class="banner">
+            <div class="banner-text">
                 <h1>SYSTEMIC CLIMATE ACTION 🌍⚡</h1>
-                <p>Individual carbon footprints aren't enough. We need real, global policy changes and community action. Use the EcoFootprint Simulator to deploy proven solutions, or use our Give & Take Board to reduce waste today!</p>
-                <a href="#quiz" class="cta-btn pulse">START POLICY SIMULATOR 👇</a>
+                <p>Individual carbon footprints aren't enough. We need real, global policy changes and community action. Use our simulator to deploy proven solutions, or use the Give & Take Board to reduce waste today!</p>
+                <a href="#sim-area" class="big-btn pulse-effect">START POLICY SIMULATOR 👇</a>
             </div>
         </section>
 
-        <!-- FACTS SECTION -->
-        <section id="facts" class="facts-section">
-            <h2 class="section-title">The Real Threat Levels 🚨</h2>
-            <div class="cards-container">
-                <div class="fact-card">
-                    <div class="card-icon">🏭</div>
+        <!-- threat levels -->
+        <section class="threats-wrapper">
+            <h2 class="main-heading">The Real Threat Levels 🚨</h2>
+            
+            <div class="flex-boxes">
+                <div class="info-box">
+                    <div class="box-emoji">🏭</div>
                     <h3>Fossil Fuel Reliance</h3>
                     <p>Coal and gas still dominate the global grid. We must transition to renewable energy immediately.</p>
                 </div>
-                <div class="fact-card">
-                    <div class="card-icon">🌲</div>
+                <div class="info-box">
+                    <div class="box-emoji">🌲</div>
                     <h3>Deforestation</h3>
                     <p>We are losing natural carbon sinks. Protecting forests and wetlands is essential for survival.</p>
                 </div>
-                <div class="fact-card">
-                    <div class="card-icon">🗑️</div>
+                <div class="info-box">
+                    <div class="box-emoji">🗑️</div>
                     <h3>Linear Economy</h3>
                     <p>The "take-make-dispose" model is broken. We need a circular economy to eliminate waste entirely.</p>
                 </div>
             </div>
         </section>
 
-        <!-- COMMAND TERMINAL SECTION -->
-        <section id="quiz" class="quiz-section">
-            <h2 class="section-title">⚡ Policy Deployment Simulator ⚡</h2>
+        <!-- the quiz part -->
+        <section id="sim-area" class="sim-area">
+            <h2 class="main-heading">⚡ Policy Deployment Simulator ⚡</h2>
             
-            <div class="quiz-container">
-                <form id="footprintForm" action="#">
-                    <div class="question-group">
-                        <label for="q1">1. Global Energy Grid Strategy ⚡</label>
+            <div class="quiz-box">
+                <form id="footprintForm">
+                    <div class="q-wrap">
+                        <label>1. Global Energy Grid Strategy ⚡</label>
                         <select id="q1" required>
                             <option value="" disabled selected>-- Select Policy --</option>
-                            <option value="20">100% Transition to Solar, Wind & Geothermal Grids</option>
-                            <option value="10">Mixed Grid (Keep some natural gas as a backup)</option>
+                            <option value="20">100% Transition to Solar, Wind & Geothermal</option>
+                            <option value="10">Mixed Grid (Keep natural gas as backup)</option>
                             <option value="0">Continue subsidizing coal and fossil fuels</option>
                         </select>
                     </div>
                     
-                    <div class="question-group">
-                        <label for="q2">2. Natural Carbon Sinks & Land Use 🌲</label>
+                    <div class="q-wrap">
+                        <label>2. Natural Carbon Sinks & Land Use 🌲</label>
                         <select id="q2" required>
                             <option value="" disabled selected>-- Select Policy --</option>
-                            <option value="20">Strictly protect existing forests, peatlands & oceans</option>
-                            <option value="10">Plant new trees (but ignore current deforestation)</option>
-                            <option value="0">Expand agricultural land by cutting down rainforests</option>
+                            <option value="20">Strictly protect existing forests & oceans</option>
+                            <option value="10">Plant new trees (ignore current deforestation)</option>
+                            <option value="0">Expand agricultural land by cutting rainforests</option>
                         </select>
                     </div>
                     
-                    <div class="question-group">
-                        <label for="q3">3. Agricultural & Food System Shift 🍎</label>
+                    <div class="q-wrap">
+                        <label>3. Agricultural & Food System Shift 🍎</label>
                         <select id="q3" required>
                             <option value="" disabled selected>-- Select Policy --</option>
                             <option value="20">Shift globally to plant-rich diets & halve food waste</option>
@@ -90,18 +89,18 @@
                         </select>
                     </div>
                     
-                    <div class="question-group">
-                        <label for="q4">4. Urban Transport Infrastructure 🚄</label>
+                    <div class="q-wrap">
+                        <label>4. Urban Transport Infrastructure 🚄</label>
                         <select id="q4" required>
                             <option value="" disabled selected>-- Select Policy --</option>
-                            <option value="20">Invest heavily in High-Speed Rail & Walkable/Bikeable Cities</option>
-                            <option value="10">Subsidize Electric Vehicles (EVs) but keep car-centric cities</option>
+                            <option value="20">Invest heavily in High-Speed Rail & Walkable Cities</option>
+                            <option value="10">Subsidize EVs but keep car-centric cities</option>
                             <option value="0">Expand highways and keep gas-powered cars</option>
                         </select>
                     </div>
                     
-                    <div class="question-group">
-                        <label for="q5">5. Industry & Manufacturing 🏗️</label>
+                    <div class="q-wrap">
+                        <label>5. Industry & Manufacturing 🏗️</label>
                         <select id="q5" required>
                             <option value="" disabled selected>-- Select Policy --</option>
                             <option value="20">Enforce a Circular Economy (Zero Waste, Right-to-Repair)</option>
@@ -110,30 +109,33 @@
                         </select>
                     </div>
                     
-                    <button type="submit" class="submit-btn">ENACT GLOBAL POLICIES 📈</button>
+                    <button type="submit" class="submit-button">ENACT GLOBAL POLICIES 📈</button>
                 </form>
 
-                <div id="resultBox" class="result-box" style="display: none;">
-                    <div id="resultEmoji" class="result-emoji">🌍</div>
-                    <h3>Sustainability Score: <span id="scoreDisplay">0</span> / 100!</h3>
-                    <div class="score-bar-bg">
-                        <div id="scoreBarFill" class="score-bar-fill"></div>
+                <!-- hidden result box -->
+                <div id="resultBox" class="end-screen" style="display: none;">
+                    <div id="resultEmoji" class="big-emoji">🌍</div>
+                    <h3>Sustainability Score: <span id="scoreText">0</span> / 100!</h3>
+                    
+                    <div class="bar-background">
+                        <div id="barFill" class="bar-color"></div>
                     </div>
+                    
                     <p id="feedbackText"></p>
-                    <button type="button" class="reset-btn" onclick="resetQuiz()">Adjust Policies 🔄</button>
+                    <button type="button" class="btn-retry" onclick="resetQuiz()">Adjust Policies 🔄</button>
                 </div>
             </div>
         </section>
 
-        <!-- GIVE AND TAKE BOARD SECTION -->
-        <section id="give-take" class="give-take-section">
-            <h2 class="section-title">♻️ The Give & Take Board ♻️</h2>
-            <p class="board-subtitle">Circular economy in action! List items you don't need, or claim stuff for free. Syncs live globally.</p>
+        <!-- live board -->
+        <section id="board-area" class="board-area">
+            <h2 class="main-heading">♻️ The Give & Take Board ♻️</h2>
+            <p class="sub-text">Circular economy in action! List items you don't need, or claim stuff for free. Syncs live globally.</p>
             
-            <div class="add-item-box">
+            <div class="new-post-box">
                 <h3>List a New Item 📦</h3>
                 <form id="addItemForm">
-                    <div class="input-row">
+                    <div class="flex-inputs">
                         <input type="text" id="newItemName" placeholder="What are you giving away?" required>
                         <select id="newItemIcon" required>
                             <option value="" disabled selected>Select Icon</option>
@@ -144,30 +146,29 @@
                             <option value="💻">💻 Tech/Cables</option>
                         </select>
                     </div>
-                    <input type="text" id="newListerName" placeholder="Your Name & Class" required>
+                    <input type="text" id="newListerName" placeholder="Your Name & Class (e.g. Rahul, 9B)" required>
                     <textarea id="newItemDesc" rows="2" placeholder="Describe the condition..." required></textarea>
-                    <button type="submit" class="add-btn">LIST ITEM SECURELY 🔒</button>
+                    <button type="submit" class="post-btn">LIST ITEM SECURELY 🔒</button>
                 </form>
             </div>
 
-            <!-- FIREBASE REALTIME SYNC CONTAINER -->
-            <div class="cards-container" id="give-take-cards">
+            <!-- Firebase injects here -->
+            <div class="flex-boxes" id="live-board">
                 <h3 style="width:100%; text-align:center; color:#555;">📡 Syncing live items from the cloud...</h3>
             </div>
         </section>
 
-        <!-- ABOUT SECTION -->
-        <section id="about" class="about-section">
+        <section id="footer-about" class="about-us">
             <h2>Who Made This 🤜🤛</h2>
-            <p>Built for the 2026 webathon by two 9th graders promoting real, evidence-based climate action.</p>
+            <p>Built for the 2026 webathon by two 9th graders promoting real climate action.</p>
         </section>
     </main>
 
-    <!-- FOOTER -->
     <footer>
         <p>© 2026 Team CodeGreens. Action today for a sustainable tomorrow. 🌍</p>
     </footer>
 
+    <!-- JS module for firebase -->
     <script type="module" src="script.js"></script>
 </body>
 </html>

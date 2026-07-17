@@ -1,11 +1,13 @@
 // ==========================================
 // SDG WEBATHON - JAVASCRIPT LOGIC
 // Real-time Firebase Sync setup 
+// Update: Claim feature now has custom celebration UX 
 // ==========================================
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, updateDoc, doc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
+// our database config
 const firebaseConfig = {
     apiKey: "AIzaSyBNO8SiOBW49CqL7YgHd572pF9mikE7ABo",
     authDomain: "ecofootprint-9c4ed.firebaseapp.com",
@@ -16,6 +18,7 @@ const firebaseConfig = {
     measurementId: "G-NCNFZTHKS4"
 };
 
+// boot up firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -33,6 +36,7 @@ document.getElementById('footprintForm').addEventListener('submit', async functi
     
     let finalPoints = ans1 + ans2 + ans3 + ans4 + ans5;
 
+    // SENDING DATA: Save the score to the cloud
     try {
         await addDoc(collection(db, "simulatorScores"), {
             score: finalPoints,
@@ -67,6 +71,7 @@ document.getElementById('footprintForm').addEventListener('submit', async functi
     document.getElementById('footprintForm').style.display = 'none';
     document.getElementById("resultBox").style.display = "block";
 
+    // cool counting animation
     let tally = 0;
     document.getElementById("scoreDisplay").innerHTML = "0"; 
     
@@ -93,18 +98,17 @@ document.getElementById('footprintForm').addEventListener('submit', async functi
 const boardDb = collection(db, "listedItems");
 const sortQuery = query(boardDb, orderBy("timestamp", "desc"));
 
-// GIVING DATA: This listens to Firestore 24/7.
+// GIVING DATA (REAL-TIME READ): This listens to Firestore 24/7.
 onSnapshot(sortQuery, (snapshot) => {
     let htmlContainer = document.getElementById('give-take-cards');
-    htmlContainer.innerHTML = ""; // Wipe it clean every time DB changes
+    htmlContainer.innerHTML = ""; // clear old stuff
     
-    let availableItemsCount = 0;
+    let availableItemsCount = 0; 
 
     snapshot.forEach((docSnap) => {
         let itemData = docSnap.data();
         let docId = docSnap.id; 
 
-        // 🔥 THE MAGIC VANISH RULE: If it is claimed, completely skip drawing it!
         if (itemData.status === "claimed") {
             return; 
         }
@@ -128,7 +132,7 @@ onSnapshot(sortQuery, (snapshot) => {
     }
 });
 
-// SENDING DATA: List a new item
+// SENDING DATA: When someone lists a new item
 document.getElementById('addItemForm').addEventListener('submit', async function(e) {
     e.preventDefault(); 
 
@@ -150,19 +154,18 @@ document.getElementById('addItemForm').addEventListener('submit', async function
 
     } catch (err) {
         console.error("DB Upload Failed: ", err);
-        alert("🚨 ERROR: Firebase blocked the upload. Check your Firestore Rules.");
+        alert("Network error.");
     } finally {
         formBtn.innerHTML = "LIST ITEM SECURELY 🔒";
     }
 });
 
-// UPDATING DATA: Claim an item
 // UPDATING DATA: Claim an item (REFINED UX)
 window.claimItem = async (docId) => {
-    // 1. Ask for their identity so it's a real transaction!
+    // Ask for identity
     let claimerName = prompt("♻️ Awesome! Enter your name & class so the owner knows who to give it to:");
 
-    // If they hit cancel or leave it blank, stop the function
+    // Stop if they hit cancel
     if (!claimerName || claimerName.trim() === "") {
         return; 
     }
@@ -170,32 +173,30 @@ window.claimItem = async (docId) => {
     let card = document.getElementById("card-" + docId);
     let btn = document.getElementById("btn-" + docId);
 
-    // 2. THE CELEBRATION STATE (Change UI instantly before touching the database)
+    // CELEBRATION STATE (Change UI instantly)
     if(btn) {
         btn.innerHTML = "🎉 CLAIMED BY " + claimerName.toUpperCase() + "!";
-        btn.style.backgroundColor = "#2ecc71"; // Turn it bright green
+        btn.style.backgroundColor = "#2ecc71"; // Bright green
         btn.style.color = "#fff";
         btn.disabled = true;
     }
 
     if(card) {
         card.style.borderColor = "#2ecc71";
-        card.style.boxShadow = "8px 8px 0px #2ecc71"; // Green shadow flex
+        card.style.boxShadow = "8px 8px 0px #2ecc71";
     }
 
-    // 3. Let them enjoy the victory for 1.5 seconds, THEN fade it out
+    // Let them enjoy the victory for 1.5 seconds, then fade it out
     setTimeout(async () => {
         
-        // Smooth fade out animation
         if (card) {
             card.style.opacity = "0";
             card.style.transform = "scale(0.9) translateY(20px)";
         }
 
-        // Wait a tiny 300ms for the fade animation to finish, THEN ping Firebase
         setTimeout(async () => {
             try {
-                // Update the cloud! We also save WHO claimed it now.
+                // Update cloud
                 const itemRef = doc(db, "listedItems", docId);
                 await updateDoc(itemRef, {
                     status: "claimed",
@@ -206,7 +207,7 @@ window.claimItem = async (docId) => {
                 console.error("DB Error: ", err);
                 alert("🚨 ERROR: Firebase connection failed! Check console.");
                 
-                // If the database fails, revert the card back to normal
+                // Revert if database fails
                 if(btn) {
                     btn.innerHTML = "CLAIM FOR FREE";
                     btn.style.backgroundColor = "#ffeb3b";
@@ -222,7 +223,7 @@ window.claimItem = async (docId) => {
             }
         }, 300);
 
-    }, 1500); // 1.5 second delay before it vanishes
+    }, 1500); 
 };
 
 window.resetQuiz = () => {

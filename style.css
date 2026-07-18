@@ -1,4 +1,6 @@
-/* --- ECOFOOTPRINT: SYSTEM ARCHITECTURE --- */
+/* --- ECOFOOTPRINT: MASTER STYLE SHEET --- */
+/* DEVS: KUNAL & MEENAKSHI | WEBATHON 2026 */
+
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&display=swap");
 
 :root {
@@ -8,25 +10,32 @@
     --yellow: #ffd700;
     --border-thick: 4px solid black;
     --shadow: 8px 8px 0px black;
-    --spacing-lg: 80px;
+    --spacing-lg: 100px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+/* --- RESET & GLOBAL --- */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+}
 
 body { 
     font-family: "Space Grotesk", sans-serif; 
     background-color: var(--bg-cream); 
     color: black; 
     line-height: 1.6;
-    letter-spacing: -0.02em;
     overflow-x: hidden; 
-    cursor: crosshair; 
+    cursor: crosshair;
     background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px), 
                       linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px); 
-    background-size: 60px 60px; /* Slight bump for a cleaner grid */
+    background-size: 60px 60px;
 }
 
-/* --- COMPONENTS --- */
+::selection { background-color: var(--green); color: black; }
+
+/* --- NAVIGATION --- */
 .top-nav { 
     background: rgba(255, 255, 255, 0.95); 
     backdrop-filter: blur(15px); 
@@ -46,15 +55,17 @@ body {
     text-shadow: 2px 2px 0px black;
 }
 
-/* --- LAYOUT SECTIONS --- */
+/* --- HERO SECTION --- */
 .banner { 
     padding: 140px 20px; text-align: center; 
     border-bottom: var(--border-thick); 
     background: var(--green);
 }
-.banner h1 { font-size: 4rem; margin-bottom: 25px; }
 
-.threats-wrapper { padding: var(--spacing-lg) 20px; background: rgba(0,0,0,0.02); }
+.banner h1 { font-size: 4rem; margin-bottom: 25px; letter-spacing: -2px; }
+
+/* --- CONTENT SECTIONS --- */
+.threats-wrapper { padding: var(--spacing-lg) 20px; }
 .sim-area { padding: var(--spacing-lg) 20px; border-bottom: var(--border-thick); }
 .board-area { padding: var(--spacing-lg) 20px; }
 
@@ -72,7 +83,7 @@ body {
 }
 .info-box:hover { transform: translateY(-15px); }
 
-/* --- QUIZ & BOARD --- */
+/* --- FORMS & CARDS --- */
 .quiz-box, .new-post-box { 
     max-width: 650px; margin: 0 auto; background: white; 
     padding: 50px; border: var(--border-thick); box-shadow: var(--shadow);
@@ -90,7 +101,7 @@ body {
     box-shadow: var(--shadow); display: flex; flex-direction: column;
 }
 
-/* --- THE SYSTEM OVERRIDE (WINNER PROTOCOL) --- */
+/* --- THE WINNER PROTOCOL (GOD-TIER) --- */
 .terminal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: black; z-index: 9999; display: flex;

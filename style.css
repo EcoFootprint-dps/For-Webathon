@@ -75,12 +75,14 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Ro
 .post-btn:hover { background-color: black; color: var(--green); border-color: var(--green); transform: translate(-3px, -3px) scale(1.02); box-shadow: 12px 12px 0px var(--yellow); animation: none; }
 .post-btn:active { transform: translate(4px, 4px) scale(0.98); box-shadow: 0px 0px 0px black; }
 
-.claimed-box { max-width: 600px; margin: 40px auto; border: 4px solid var(--orange); background: #111; padding: 20px; box-shadow: 6px 6px 0px rgba(255,87,34,0.3); } /* the new claimed items tracker */
-.claimed-box summary { cursor: pointer; font-weight: 800; font-size: 1.3rem; color: var(--orange); list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.claimed-box { max-width: 600px; margin: 40px auto; border: 2px solid var(--orange); border-left: 8px solid var(--orange); background: #0a0a0a; background-image: linear-gradient(rgba(255,87,34,0.05) 1px, transparent 1px); background-size: 100% 4px; padding: 25px; box-shadow: 0 0 15px rgba(255,87,34,0.2), inset 0 0 20px rgba(0,0,0,0.8); position: relative; } /* upgraded the diverted items tracker into a highly classified terminal log */
+.claimed-box summary { cursor: pointer; font-family: "Orbitron", sans-serif; font-weight: 800; font-size: 1.4rem; color: var(--orange); list-style: none; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 8px rgba(255,87,34,0.5); }
 .claimed-box summary::-webkit-details-marker { display: none; } /* hides the default ugly arrow take that chrome */
-.claimed-box ul { margin-top: 15px; padding-left: 0; list-style-type: none; border-top: 3px dashed var(--orange); padding-top: 15px; }
-.claimed-box li { margin-bottom: 10px; font-weight: 600; background: black; color: white; padding: 12px; border: 3px solid var(--orange); transform: translateX(0); transition: transform 0.2s; }
-.claimed-box li:hover { transform: translateX(10px); border-color: var(--yellow); color: var(--yellow); } /* items slide over slightly when hovered in history */
+.claimed-box ul { margin-top: 20px; padding-left: 0; list-style-type: none; border-top: 2px solid rgba(255,87,34,0.3); padding-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+.claimed-box li { font-family: monospace; font-size: 1.1rem; margin-bottom: 0; font-weight: 600; background: black; color: #ccc; padding: 15px; border: 1px solid #222; border-left: 4px solid var(--orange); transform: translateX(0); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
+.claimed-box li::before { content: '>'; color: var(--green); position: absolute; left: -20px; transition: left 0.3s ease; opacity: 0; font-weight: bold; } /* hidden terminal arrow that slides in */
+.claimed-box li:hover { transform: translateX(15px); border-color: var(--green); border-left-color: var(--green); border-left-width: 6px; color: white; box-shadow: 0 0 12px rgba(46,204,113,0.3); background: #050505; padding-left: 30px; text-shadow: 0 0 5px rgba(46,204,113,0.5); } /* items do a sick hacker slide and glow green like a successful terminal command */
+.claimed-box li:hover::before { left: 10px; opacity: 1; }
 
 .item-card { background-color: var(--card-dark); border: 4px solid var(--yellow); padding: 30px; width: 320px; box-shadow: 8px 8px 0px var(--yellow); display: flex; flex-direction: column; animation: fadeInUp 0.5s ease-out, floatInfinite 4.5s ease-in-out infinite alternate; cursor: crosshair; } /* item cards is the goat with anti gravity */
 .item-card:hover { transform: translateY(-12px) rotate(-1deg) scale(1.02); box-shadow: 14px 14px 0px var(--orange); border-color: var(--orange); animation: none; }

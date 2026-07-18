@@ -2,32 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <!-- DO NOT DELETE THE VIEWPORT THING AGAIN. THE PHONE VERSION LITERALLY EXPLODED LAST TIME MY PARTNER TOUCHED IT. -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- To-do: update title later -->
+  
+  <!-- To-do: update title later 
+       EDIT: BRO THE WEBATHON IS IN 2 HOURS WE DON'T HAVE TIME JUST LEAVE IT -->
   <title>EcoFootprint - Climate Action Simulator 🌍</title>
   <link href="style.css" rel="stylesheet">
 </head>
 <body>
   
-  <!-- Navigation bar -->
+  <!-- Nav bar that took me 3 hours because flexbox is the actual devil -->
   <header class="top-nav">
     <h2 class="site-logo">🌿 EcoFootprint</h2>
     <nav>
       <a href="#home">Overview</a> 
       <a href="#sim">Policy Sim</a> 
       <a href="#board">Give & Take</a> 
+      <!-- we are NOT devs we are just trying to get extra credit in science class bruh -->
       <a href="#about">The Devs</a>
     </nav>
   </header>
 
-  <!-- Main banner -->
+  <!-- Main banner 
+       My teammate wanted to make this text spin using CSS animations but it made me dizzy so I deleted it. RIP. -->
   <div id="home" class="banner">
     <h1>SYSTEMIC CLIMATE ACTION 🌍⚡</h1>
     <p>Individual actions matter, but we need major policy changes to make a real impact on the climate. Use our simulator to test global policies or use the Give & Take Board to share resources locally!</p>
     <a href="#sim"><button class="big-btn">START POLICY SIMULATOR 👇</button></a>
   </div>
 
-  <!-- Threat boxes -->
+  <!-- IDK HOW THESE THREAT BOXES ARE ALIGNING BUT DO NOT TOUCH THE DIVS. 
+       NOT EVEN ONE SPACE. IF YOU BREATHE ON THIS CODE IT BREAKS. -->
   <div class="threats-wrapper">
     <h2 class="main-heading">Key Climate Threats 🚨</h2>
     <div class="flex-boxes">
@@ -49,23 +55,25 @@
     </div>
   </div>
 
-  <!-- The simulator -->
+  <!-- The simulator (basically a Buzzfeed quiz but for saving the earth lol) -->
   <div id="sim" class="sim-area">
     <h2 class="main-heading">⚡ Policy Deployment Simulator ⚡</h2>
     <div class="quiz-box">
+      <!-- NOTE: if this form doesn't submit it's bc someone forgot the e.preventDefault() in JS again -->
       <form id="footprintForm">
         <!-- Q1: Energy Grid -->
         <div class="q-wrap">
           <label>1. Global Energy Grid Strategy ⚡</label>
           <select id="q1" required>
             <option value="">-- Pick your path --</option>
+            <!-- these values better add up to 100 or the math is gonna crash -->
             <option value="20">100% Transition to Solar, Wind & Geothermal</option>
             <option value="10">Mixed Grid (Keep natural gas during transition)</option>
             <option value="0">Maintain current fossil fuel dependence</option>
           </select>
         </div>
         
-        <!-- Q2: Forests -->
+        <!-- Q2: Forests (did we even learn this in bio? whatever, sounds smart) -->
         <div class="q-wrap">
           <label>2. Natural Carbon Sinks & Land Use 🌲</label>
           <select id="q2" required>
@@ -77,8 +85,9 @@
         </div>
 
         <!-- Q3: Food -->
+        <!-- My project partner was forced to go vegan last week so they made me add this question 💀 -->
         <div class="q-wrap">
-          <label>3. Agricultural & Food System Shift 🍎</label>
+          <label>3. Agricultural & Food Shift 🍎</label>
           <select id="q3" required>
             <option value="">-- Pick your path --</option>
             <option value="20">Global shift to plant-rich diets & reduced waste</option>
@@ -112,7 +121,7 @@
         <button type="submit" class="submit-button">ENACT GLOBAL POLICIES 📈</button>
       </form>
       
-      <!-- Hidden result screen -->
+      <!-- Hidden result screen (I copied this hide/show trick from StackOverflow bless up 🙌) -->
       <div id="resultBox" class="end-screen" style="display: none;">
         <h1 id="resultEmoji" class="big-emoji">🌍</h1>
         <h3>Sustainability Score: <span id="scoreText">0</span> / 100</h3>
@@ -123,7 +132,8 @@
     </div>
   </div>
 
-  <!-- Give and take board section -->
+  <!-- Give and take board section 
+       Bro this is literally just Craigslist for our school but our teacher loved the idea -->
   <div id="board" class="board-area">
     <h2 class="main-heading">♻️ The Give & Take Board ♻️</h2>
     <p class="sub-text">List your unused items or find something you need. Reusing items helps reduce overall waste in our community.</p>
@@ -135,6 +145,7 @@
           <input type="text" id="newItemName" placeholder="e.g. Geometry Textbook" required>
           <select id="newItemIcon" required>
             <option value="">Pick an Icon</option>
+            <!-- anyone got the answers for chapter 4 math tho??? i am failing -->
             <option value="📚">📚 Books/Notes</option>
             <option value="👕">👕 Uniforms/Clothes</option>
             <option value="🎨">🎨 Art/Supplies</option>
@@ -142,24 +153,26 @@
             <option value="💻">💻 Tech/Cables</option>
           </select>
         </div>
-        <input type="text" id="newListerName" placeholder="Your Name & Class" required>
+        <input type="text" id="newListerName" placeholder="Your Name & Class (DON'T DOX URSELF)" required>
         <textarea id="newItemDesc" rows="3" placeholder="Condition? Where do we meet?" required></textarea>
         <button type="submit" class="post-btn">LIST ITEM 🔒</button>
       </form>
     </div>
 
+    <!-- The actual board. Please God let the database connect. -->
     <div id="live-board" class="flex-boxes">
-      <h3 style="width:100%; text-align:center; color:gray;">📡 Loading items from the database...</h3>
+      <h3 style="width:100%; text-align:center; color:gray;">📡 Loading items from the database... (if this is spinning forever my partner broke the backend again)</h3>
     </div>
 
-    <!-- Claimed Items Section -->
+    <!-- Claimed Items Section 
+         I hid this in a details tag bc the list gets too long and ruins my CSS layout. BIG BRAIN MOVE 🧠 -->
     <div class="claimed-box">
       <details>
         <summary>👀 Claimed History</summary>
         <p>Check here to see which items have already been swapped.</p>
         <ul id="claimed-list">
-          <!-- JS will push data here -->
-          <li>No items claimed yet.</li>
+          <!-- JS will push data here (hopefully) -->
+          <li>No items claimed yet. (be the first!)</li>
         </ul>
       </details>
     </div>
@@ -168,11 +181,13 @@
   <!-- Footer -->
   <footer id="about" class="about-us">
     <h2>About the Developers 🤜🤛</h2>
-    <p>Built for the 2026 webathon by two 9th-grade students.</p>
+    <!-- we're putting 2026 so it looks official even tho we built it at 2 AM on a Tuesday -->
+    <p>Built for the 2026 webathon by two 9th-grade students who really need to sleep.</p>
     <br>
     <p>© 2026 Team CodeGreens. Working towards a sustainable future. 🌍</p>
   </footer>
 
+  <!-- if u link the wrong JS file again I am telling the teacher u did zero work -->
   <script type="module" src="script.js"></script>
 </body>
 </html>

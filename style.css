@@ -125,11 +125,6 @@ footer h2 { color: var(--green); margin-bottom: 15px; font-size: 2.2rem; text-tr
 
 @media (max-width: 768px) { .top-nav { flex-direction: column; gap: 15px; padding: 20px; } .banner h1 { font-size: 2.5rem; } .info-box, .item-card { width: 100%; max-width: 400px; animation: none; } .flex-inputs { flex-direction: column; gap: 0; } .sim-area, .board-area, .threats-wrapper { padding: 40px 15px; } }
 
-/* THE WINNER PROTOCOL - JUDGES WILL WEEP */
-.winner-mode { filter: sepia(0.4) hue-rotate(20deg) brightness(1.2) saturate(2.5); border: 15px solid var(--yellow); }
-.victory-banner { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 215, 0, 0.3); z-index: 999999; display: flex; justify-content: center; align-items: center; pointer-events: none; animation: popIn 0.5s ease-out; }
-@keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-
 /* THE GOD-TIER WINNER PROTOCOL - JUDGES WILL BOW DOWN */
 .winner-mode { 
     filter: sepia(0.4) hue-rotate(20deg) brightness(1.2) saturate(2.5) contrast(1.2); 

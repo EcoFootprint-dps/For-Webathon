@@ -102,26 +102,27 @@ window.resetQuiz = () => {
 
 /* WINNER PROTOCOL: THE GOD-TIER FLEX */
 window.activateWinnerProtocol = () => {
-    // 1. Shake the screen and apply gold mode
+    // 1. Shake the screen and apply Gold Strobe
     document.body.classList.add('shake');
     document.body.classList.add('winner-mode');
     
-    // 2. Spawn 60 pieces of confetti for extra OP impact
-    for(let i = 0; i < 60; i++) {
+    // 2. Spawn 80 pieces of high-intensity confetti
+    for(let i = 0; i < 80; i++) {
         let c = document.createElement('div');
         c.className = 'confetti';
         c.style.left = Math.random() * 100 + 'vw';
+        c.style.backgroundColor = ['#2ecc71', '#ff5722', '#ffd700'][Math.floor(Math.random() * 3)];
         c.style.animationDelay = Math.random() * 2 + 's';
         document.body.appendChild(c);
     }
     
-    // 3. Create the massive text banner for maximum drama
+    // 3. Create the massive victory text
     let banner = document.createElement('div');
     banner.className = 'victory-banner';
-    banner.innerHTML = '<h1 style="font-size: 10rem; color: #ffd700; text-shadow: 15px 15px 0px black; font-family: sans-serif;">WINNERS! 🏆</h1>';
+    banner.innerHTML = '<h1 style="font-size: 12rem; color: white; text-shadow: 10px 10px 0px black; font-family: sans-serif; letter-spacing: -5px;">WINNERS! 🏆</h1>';
     document.body.appendChild(banner);
     
-    // 4. Cleanup everything after 4 seconds so we can actually keep demoing
+    // 4. Cleanup everything after 4 seconds
     setTimeout(() => {
         document.body.classList.remove('shake');
         document.body.classList.remove('winner-mode');
@@ -129,5 +130,5 @@ window.activateWinnerProtocol = () => {
         document.querySelectorAll('.confetti').forEach(e => e.remove());
     }, 4000);
     
-    console.log("Judges: 'Wait... did they just animate the DOM like that?'");
+    console.log("Judges: 'Okay, that was actually impressive.'");
 };

@@ -1,8 +1,8 @@
 <!DOCTYPE html> <html lang="en">
-<head> <meta charset="UTF-8"> <!-- pls do not delete viewport the mobile ver crashes --> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--update title later--> <title>EcoFootprint</title> <link href="style.css" rel="stylesheet"> <!-- adding chart.js for the new eco-shift graphs the judges love data --> <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> </head>
+<head> <meta charset="UTF-8"> <!-- pls do not delete viewport the mobile ver crashes --> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--update title later--> <title>EcoFootprint</title> <link href="style.css" rel="stylesheet"> </head>
 <body>
 
-    <!-- this took me like 3hrs bcuz of flexbox --> <header class="top-nav"> <h2 class="site-logo">🌿 EcoFootprint</h2> <nav> <a href="#home">Home</a> <a href="#sim">Simulator</a> <a href="#board">Give & Take</a> <a href="#ecoshift">Eco-Shift</a> <a href="#about">About</a> </nav> </header>
+    <!-- this took me like 3hrs bcuz of flexbox --> <header class="top-nav"> <h2 class="site-logo">🌿 EcoFootprint</h2> <nav> <a href="#home">Home</a> <a href="#sim">Simulator</a> <a href="#board">Give & Take</a> <a href="#about">About</a> </nav> </header>
 
     <!-- index guess this could be better --> <div id="home" class="banner"> <h1>Policy Simulator & Give & Take Board</h1> <p>Drive systemic climate action. Test global solutions with our Policy Simulator or share Used Resources locally on the Give & Take Board.</p> <!-- FIXED: Changed class from "btn" to "big-btn" so the CSS applies! --> <a href="#sim" class="big-btn">Try the Simulator</a> </div>
 
@@ -30,12 +30,6 @@
         <!-- board is done --> <div id="live-board" class="flex-boxes"> <h3 style="width:100%; text-align:center; color:gray;">Loading items from firestore...</h3> </div>
 
         <!-- claimed Items Section index hid this in a detais tag bcuz the list gets too long and ruins the css big brain move --> <div class="claimed-box"> <details> <summary>Claimed History</summary> <p>Check here to see which items have already been swapped.</p> <ul id="claimed-list"> <!-- data is pushed here --> <li>No items claimed yet. (be the first!)</li> </ul> </details> </div>
-    </div>
-
-    <!-- new eco-shift feature hackathon judges will love this data viz --> <div id="ecoshift" class="board-area" style="border-top: 8px solid black; background-color: var(--yellow);"> <h2 class="main-heading">⏳ Eco-Shift: Habit Transformer ⏳</h2> <p class="sub-text">Select one daily bad habit, adjust your frequency, and instantly see your 1-year financial and environmental savings.</p>
-        <div class="new-post-box" style="max-width: 800px;"> <h3>Calculate Your Impact</h3> <form id="ecoShiftForm"> <div class="flex-inputs"> <select id="habitSelect" required> <option value="">-- Choose a Habit to Break --</option> <option value="water">Buy Bottled Water (₹20)</option> <option value="coffee">Disposable Coffee Cups (₹150)</option> <option value="meat">Daily Meat Consumption</option> <option value="drive">Short Car Trips (< 5km)</option> </select> </div> <div class="q-wrap" style="text-align: left; margin-bottom: 20px;"> <label for="habitFreq" style="margin-bottom: 15px;">Frequency: <span id="freqDisplay" style="color: var(--orange);">3</span> times per week</label> <input type="range" id="habitFreq" min="1" max="14" value="3" style="width: 100%; cursor: pointer;"> </div> <button type="button" id="calcImpactBtn" class="post-btn">TRANSFORM MY HABIT</button> </form> 
-        
-        <!-- chart canvas hidden until button is clicked pure css magic --> <div id="chartBox" style="display: none; margin-top: 40px; border-top: 3px dashed black; padding-top: 20px;"> <h3 style="color: black; margin-bottom: 15px;">Your 1-Year Savings Projection</h3> <canvas id="impactChart"></canvas> <h2 style="margin-top: 20px; color: var(--green); text-shadow: 1px 1px 0px black;">Saved: <span id="moneySaved">₹0</span> & <span id="co2Saved">0kg</span> CO2!</h2> </div> </div>
     </div>
 
     <!-- Footer --> <footer id="about" class="about-us"> <h2>About the Devs</h2> <p>Built for the 2026 webathon by two 9th-grade students.</p><br> <!-- copyright so it looks offical --> <p>© 2026 Team CodeGreens (Kunal and Meenakshi)</p> </footer>

@@ -10,7 +10,8 @@ import {
     query, 
     orderBy, 
     updateDoc, 
-    doc 
+    doc,
+    serverTimestamp /*added this so kids with broken laptop clocks dont mess up the sorting*/
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 const firebaseConfig = { /*do not touch this took me forever*/
@@ -26,6 +27,14 @@ const firebaseConfig = { /*do not touch this took me forever*/
 const app = initializeApp(firebaseConfig); /*booting up the database seems like a hacker thing*/
 const db = getFirestore(app);
 
+/*SECURITY UPGRADE: stops bad actors from injecting html and ruining the board. we are cybersecurity experts now*/
+const sanitizeHTML = (str) => {
+    if (!str) return "";
+    let temp = document.createElement('div');
+    temp.textContent = str;
+    return temp.innerHTML; 
+};
+
 /*quiz section logic dont break this its fragile lols*/
 document.getElementById('footprintForm').addEventListener('submit', async function(event) {
     event.preventDefault(); /*if you forget this the page reloads*/
@@ -40,7 +49,7 @@ document.getElementById('footprintForm').addEventListener('submit', async functi
 
     addDoc(collection(db, 'simulatorScores'), {
         score: totalScore,
-        date: new Date().toString()
+        date: serverTimestamp() /*using the google server time so its completely bulletproof*/
     }).catch(error => { /*trying to save to database if the school network drops this is gonna fail so hard wll be cooked*/
         console.log("bruh firebase error wtf: ", error); 
     }); /*checking console is basically screaming into the space*/
@@ -107,16 +116,22 @@ onSnapshot(boardQuery, (snapshot) => { /*this is basically magic it just knows w
         let itemData = docSnap.data();
         let itemId = docSnap.id;
 
+        /*cleaning the data so nobody can inject fake html into the page*/
+        let safeName = sanitizeHTML(itemData.name);
+        let safeClaimedBy = sanitizeHTML(itemData.claimedBy);
+        let safeLister = sanitizeHTML(itemData.lister);
+        let safeDesc = sanitizeHTML(itemData.description);
+
         if (itemData.status === "claimed") { /*logic if claimed hide it in the history dropdown if not show on the main board*/
             claimedCount++;
-            claimedList.innerHTML += `<li>✅ <strong>${itemData.name}</strong> was snagged by ${itemData.claimedBy}!</li>`;
+            claimedList.innerHTML += `<li>✅ <strong>${safeName}</strong> was snagged by ${safeClaimedBy}!</li>`;
         } else {
             itemCount++; /*writing html inside js feels illegal but stackoverflow says its fine*/
             let htmlCard = `<div class="item-card" id="card-${itemId}">
                 <div class="card-icon">${itemData.icon}</div>
-                <h3>${itemData.name}</h3>
-                <p class="lister-name">Listed by: ${itemData.lister}</p>
-                <p>${itemData.description}</p>
+                <h3>${safeName}</h3>
+                <p class="lister-name">Listed by: ${safeLister}</p>
+                <p>${safeDesc}</p>
                 <button class="grab-btn" id="btn-${itemId}" onclick="claimIt('${itemId}')">CLAIM FOR FREE</button>
             </div>`;
             liveBoard.innerHTML += htmlCard;
@@ -144,7 +159,7 @@ document.getElementById('addItemForm').addEventListener('submit', async(event) =
         lister: document.getElementById('newListerName').value,
         description: document.getElementById('newItemDesc').value,
         status: "available",
-        timestamp: new Date().toISOString() /*gives a weird long time string but it works for sorting*/
+        timestamp: serverTimestamp() /*actually bulletproof time, doesn't depend on the student's broken laptop clock*/
     }).then(() => { /*throw it into the cloud*/
         alert("It's live on the board! (unless the wifi blocked it)");
         document.getElementById('addItemForm').reset();

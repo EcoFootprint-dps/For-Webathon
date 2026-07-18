@@ -21,7 +21,7 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Ro
 .top-nav nav a { color: black; text-decoration: none; font-weight: 700; margin-left: 20px; cursor: pointer; display: inline-block; }
 .top-nav nav a:hover { color: var(--green); border-bottom: 3px solid var(--green); transform: translateY(-3px) scale(1.05); } /* the little jump effect literally spent 43 minutes on this one line now it scales too */
 
-.banner { background-color: var(--green); color: black; text-align: center; padding: 80px 20px; border-bottom: 8px solid black; } /* hero banner area if u make the padding smaller it looks squished pls dont do it */
+.banner { background-color: var(--green); background-image: linear-gradient(rgba(0, 0, 0, 0.1) 2px, transparent 2px), linear-gradient(90deg, rgba(0, 0, 0, 0.1) 2px, transparent 2px); background-size: 40px 40px; animation: panGrid 4s linear infinite; color: black; text-align: center; padding: 80px 20px; border-bottom: 8px solid black; } /* added the grid to the banner because plain colors are boring */
 .banner h1 { font-family: "Orbitron", sans-serif; font-size: 4rem; margin-bottom: 20px; text-shadow: 5px 5px 0px white; animation: fadeInUp 0.8s ease-out, floatInfinite 5s ease-in-out infinite alternate; letter-spacing: -2px; } /* heading floats now too */
 .banner p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 30px auto; font-weight: 600; text-shadow: 1px 1px 0px white; }
 
@@ -40,7 +40,7 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Ro
 .box-emoji { font-size: 3.5rem; margin-bottom: 15px; display: inline-block; filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.2)); }
 .info-box:hover .box-emoji { animation: pulse 1s infinite; transform: scale(1.2); } /* little easter egg css pulse animation goes brrrrr */
 
-.sim-area { padding: 80px 20px; border-top: 8px solid black; border-bottom: 8px solid black; background-color: var(--green); } /* chose this green background but now hate it but its too late to change and debug */
+.sim-area { padding: 80px 20px; border-top: 8px solid black; border-bottom: 8px solid black; background-color: var(--green); background-image: linear-gradient(rgba(0, 0, 0, 0.1) 2px, transparent 2px), linear-gradient(90deg, rgba(0, 0, 0, 0.1) 2px, transparent 2px); background-size: 40px 40px; animation: panGrid 4s linear infinite; } /* chose this green background with the grid so it matches the whole blueprint vibe */
 .sim-area .main-heading { color: white; text-decoration-color: black; text-shadow: 3px 3px 0px black; }
 .quiz-box { max-width: 600px; margin: 0 auto; background-color: white; padding: 40px; border: var(--border-thick); box-shadow: 10px 10px 0px black; }
 .q-wrap { margin-bottom: 25px; }
@@ -53,7 +53,7 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Ro
 .submit-button:hover { background-color: black; color: var(--green); transform: translate(-3px, -3px) scale(1.02); box-shadow: 12px 12px 0px var(--green); animation: none; }
 .submit-button:active { transform: translate(4px, 4px) scale(0.98); box-shadow: 0px 0px 0px black; }
 
-.end-screen { margin-top: 30px; padding: 30px; border: var(--border-thick); background-color: var(--yellow); text-align: center; animation: fadeInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); } /* wait why is this yellow whatever iter dont have time to fix it */
+.end-screen { margin-top: 30px; padding: 30px; border: var(--border-thick); background-color: var(--yellow); background-image: linear-gradient(rgba(0, 0, 0, 0.1) 2px, transparent 2px), linear-gradient(90deg, rgba(0, 0, 0, 0.1) 2px, transparent 2px); background-size: 40px 40px; text-align: center; animation: fadeInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), panGrid 4s linear infinite; } /* combined animations so it still fades in but gets the moving grid */
 .big-emoji { font-size: 60px; margin-bottom: 10px; animation: pulse 2s infinite; }
 .bar-background { width: 100%; height: 35px; border: 4px solid black; background-color: white; margin: 20px 0; overflow: hidden; border-radius: 20px; box-shadow: inset 3px 3px 0px rgba(0,0,0,0.1); }
 .bar-color { height: 100%; width: 0%; background-color: var(--green); border-right: 4px solid black; transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); background-image: linear-gradient(45deg, rgba(255,255,255,0.3) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.3) 75%, transparent 75%, transparent); background-size: 30px 30px; animation: moveStripes 1s linear infinite; } /* added OP moving candy-cane stripes to the progress bar */
@@ -104,7 +104,7 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Ro
 @keyframes colorShift { 0% { color: var(--green); text-shadow: 2px 2px 0px black; } 50% { color: var(--yellow); text-shadow: 3px 3px 0px var(--orange); } 100% { color: var(--green); text-shadow: 2px 2px 0px black; } } /* RGB gamer text shifting */
 @keyframes glowPulse { 0% { box-shadow: 6px 6px 0px black; } 50% { box-shadow: 6px 6px 20px rgba(0,0,0,0.5), 6px 6px 0px black; } 100% { box-shadow: 6px 6px 0px black; } } /* radioactive button pulsing */
 
-footer { background-color: black; color: white; text-align: center; padding: 60px 20px; font-weight: bold; border-top: 12px solid var(--green); } /* footer so big it looks like we have more content than we actually do */
+footer { background-color: black; background-image: linear-gradient(rgba(255, 255, 255, 0.15) 2px, transparent 2px), linear-gradient(90deg, rgba(255, 255, 255, 0.15) 2px, transparent 2px); background-size: 40px 40px; animation: panGrid 4s linear infinite; color: white; text-align: center; padding: 60px 20px; font-weight: bold; border-top: 12px solid var(--green); } /* footer so big it looks like we have more content than we actually do plus dark mode grid */
 footer h2 { font-family: "Orbitron", sans-serif; color: var(--green); margin-bottom: 15px; font-size: 2.2rem; text-transform: uppercase; letter-spacing: 2px; text-shadow: 3px 3px 0px rgba(255,255,255,0.2); }
 
 @media (max-width: 768px) { .top-nav { flex-direction: column; gap: 15px; padding: 20px; } .banner h1 { font-size: 2.5rem; } .info-box, .item-card { width: 100%; max-width: 400px; animation: none; } .flex-inputs { flex-direction: column; gap: 0; } .sim-area, .board-area, .threats-wrapper { padding: 40px 15px; } } /* mobile view so the judges dont complain so iter had to hardcode this do not touch. disabled anti-gravity on mobile so phones dont explode */

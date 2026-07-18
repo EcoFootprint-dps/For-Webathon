@@ -60,3 +60,20 @@ window.claimIt = function(itemId) { /*putting this on window so the inline html 
 };
 
 window.resetQuiz = () => { /*resetting the quiz index guess*/ document.getElementById("footprintForm").reset(); document.getElementById("scoreText").innerText = "0"; document.getElementById("barFill").style.width = "0%"; document.getElementById("resultBox").style.display = "none"; /*swap the display boxes back so its not weird*/ document.getElementById("footprintForm").style.display = "block"; window.scrollTo(0, document.getElementById('sim').offsetTop); /*scroll them back up so they arent staring at the bottom of the page confued*/ };
+
+/* WINNER PROTOCOL: call this to show the judges we are absolute legends */
+window.activateWinnerProtocol = () => {
+    /* turn on gold mode */
+    document.body.classList.add('winner-mode');
+    
+    /* create the victory banner */
+    let banner = document.createElement('div');
+    banner.className = 'victory-banner';
+    banner.innerHTML = '<h1 style="font-size: 8rem; color: #ffd700; text-shadow: 10px 10px 0px black;">WINNERS! 🏆</h1>';
+    document.body.appendChild(banner);
+    
+    /* destroy it after 3 seconds so we can keep demoing */
+    setTimeout(() => { banner.remove(); }, 3000);
+    
+    console.log("Judges: 'Wow, such clean code.'");
+};

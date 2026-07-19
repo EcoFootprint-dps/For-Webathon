@@ -8,35 +8,39 @@ var firebaseApp = initializeApp(conf), database = getFirestore(firebaseApp);
 /* security stuff from stackoverflow */
 function cln(s){ if(!s)return""; var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 /* --- KONAMI CODE (Cleaned Up) --- */
-const konamiCode = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a']; 
+c/* --- FIXED KONAMI CODE --- */
+const KONAMI_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight'];
 let konamiPosition = 0;
 
-document.addEventListener('keydown', function(e) {
-    // Normalize input to lowercase to match our array
-    const pressedKey = e.key.toLowerCase();
-    const expectedKey = konamiCode[konamiPosition];
-
-    if (pressedKey === expectedKey) {
+document.addEventListener('keydown', (e) => {
+    // Only check if key matches the current position in the sequence
+    if (e.key === KONAMI_CODE[konamiPosition]) {
         konamiPosition++;
-        console.log("Konami progress: " + konamiPosition); // Debug: Check console to see if it's counting up
-
-        if (konamiPosition === konamiCode.length) {
-            console.log("Konami Activated!");
-            
-            // Trigger your effects
-            document.getElementById('konami-modal').style.display = 'flex';
-            document.body.classList.add('winner-mode');
-            
-            // Reset glitch effect after 1 second
-            setTimeout(() => document.body.classList.remove('winner-mode'), 1000);
-            
-            konamiPosition = 0; // Reset after success
+        console.log("Progress: " + konamiPosition); 
+        
+        if (konamiPosition === KONAMI_CODE.length) {
+            triggerEasterEgg();
+            konamiPosition = 0;
         }
     } else {
-        // Reset if they press the wrong key
-        konamiPosition = 0;
+        konamiPosition = 0; // Reset if they mess up
     }
 });
+
+function triggerEasterEgg() {
+    console.log("Konami Activated!");
+    
+    // Safety check: Does the modal actually exist?
+    const modal = document.getElementById('konami-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+    } else {
+        console.warn("Easter egg triggered, but #konami-modal does not exist in your HTML.");
+    }
+
+    document.body.classList.add('winner-mode');
+    setTimeout(() => document.body.classList.remove('winner-mode'), 1000);
+}
 
 /* putting everything in onload because it broke otherwise */
 window.onload = function() {

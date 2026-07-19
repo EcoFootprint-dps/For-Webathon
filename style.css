@@ -193,3 +193,28 @@ footer h2 { font-family: "Orbitron", sans-serif; color: white; margin-bottom: 20
 .winner-mode { animation: flashColors 0.5s infinite; }
 .victory-banner { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.9); z-index: 999999; text-align: center; pointer-events: none; /* Allows clicking through if needed */ }
 @keyframes flashColors { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
+
+/* --- NEW: PRINT REPORT FEATURE --- */
+@media print {
+    /* Hide everything that isn't the report */
+    body * {
+        visibility: hidden;
+    }
+    #resultBox, #resultBox * {
+        visibility: visible;
+    }
+    #resultBox {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white !important;
+        color: black !important;
+        border: 2px solid black !important;
+        box-shadow: none !important;
+    }
+    /* Hide buttons in the printout */
+    .brutal-btn {
+        display: none;
+    }
+}

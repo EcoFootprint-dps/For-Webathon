@@ -7,44 +7,8 @@
 <!-- update title later cuz lazy -->
   <title>EcoFootprint by CodeGreens</title>
 <link href="style.css" rel="stylesheet">
-    <!-- <link href="old_style.css" rel="stylesheet"> tried this but it sucked -->
 </head>
 <body>
-
-<!-- SUPER COOL GREEN STATS BAR (Judges, look here!) -->
-<div id="green-stats-bar" class="green-stats-bar">
-    <div class="website-carbon" title="Website carbon results for: codegreens-dps.github.io/ecofootprint">
-        <span class="badge">A+</span> 
-        <strong>Hurrah!</strong> This page is cleaner than <strong>96%</strong> of all web pages globally. 
-        <span class="tested-date">(Tested: 19 Jul, 2026)</span>
-    </div>
-    
-    <div class="grid-intensity">
-        <label for="regionSelect" title="Electricity Maps API magic goes here">⚡ Live Grid Carbon Intensity:</label>
-        <select id="regionSelect">
-            <option value="IN">Mainland India (IN)</option>
-            <option value="IN-EA">Eastern India (IN-EA)</option>
-            <option value="IN-NE">North Eastern India (IN-NE)</option>
-            <option value="IN-NO" selected>Northern India (IN-NO)</option>
-            <option value="IN-SO">Southern India (IN-SO)</option>
-            <option value="IN-WE">Western India (IN-WE)</option>
-        </select>
-        
-        <!-- Upgraded this box to hold the visual meter -->
-        <div id="intensityDisplay" class="intensity-display">
-            <div class="intensity-readout">
-                <span id="intensityValue">Loading...</span> <small>gCO₂eq/kWh</small>
-            </div>
-            
-            <!-- The new visual meter for the judges -->
-            <div class="meter-wrapper" title="Lower is greener!">
-                <div id="intensityMeterFill" class="meter-fill"></div>
-            </div>
-            <div id="intensityStatus" class="intensity-status">Checking grid health...</div>
-        </div>
-    </div>
-</div>
-<!-- end of green stats bar -->
 
 <!-- flexbox is literally evil i spent 3 hrs crying over this header lol -->
   <header class='top-nav'>
@@ -65,6 +29,31 @@
     <a href="#sim" class='big-btn'>Try the Simulator</a>
   </DIV>
 
+<!-- NEW: The Local Carbon Intensity Card sitting pretty right below the banner -->
+<div style="display: flex; justify-content: center; background-color: #060201; padding-top: 80px; margin-bottom: -40px;">
+    <div class="api-card" title="Live data pulled from Electricity Maps API">
+        <h3>⚡ Local Grid Intensity</h3>
+        <select id="regionSelect">
+            <option value="IN">Mainland India (IN)</option>
+            <option value="IN-EA">Eastern India (IN-EA)</option>
+            <option value="IN-NE">North Eastern India (IN-NE)</option>
+            <option value="IN-NO" selected>Northern India (IN-NO)</option>
+            <option value="IN-SO">Southern India (IN-SO)</option>
+            <option value="IN-WE">Western India (IN-WE)</option>
+        </select>
+        
+        <div id="intensityDisplay" class="intensity-display">
+            <div class="intensity-readout">
+                <span id="intensityValue">Loading...</span> <small>gCO₂eq/kWh</small>
+            </div>
+            <div class="meter-wrapper" title="Lower is greener!">
+                <div id="intensityMeterFill" class="meter-fill"></div>
+            </div>
+            <div id="intensityStatus" class="intensity-status">Checking grid health...</div>
+        </div>
+    </div>
+</div>
+
 <!-- idk how this works but it aligns so dont touch or it explodes -->
 <div class="threats-wrapper">
     <h2 class="main-heading">Core Climate Threats</h2>
@@ -74,7 +63,6 @@
             <h3>Fossil Fuel Addiction</h3>
             <p>Burning coal, oil, and gas is the main driver of the climate crisis. Transitioning to clean, renewable energy is our only exit strategy. (as of now)</p>
         </div>
-        <!-- <div class="info-box"> test box delete later </div> -->
           <DIV class="info-box">
             <h1 class='box-emoji' title="The Lorax is sadge rn">🪓</h1>
             <h3>Rapid Deforestation</h3>
@@ -99,7 +87,6 @@
               <label>1. How should we power the world? ⚡</label>
                 <select id="q1" required>
                   <option value="">-- Pick your path --</option>
-                  <!-- these values beter add up to 100 or the math is cooked for us -->
                     <option value="20">Only use clean, green power</option>
                     <option value="10">Slowly move away from fossil fuels</option>
                   <option value="0">Stick with oil, coal, and gas</option>
@@ -117,7 +104,6 @@
                 </select>
             </DIV>
              
-             <!-- brain cells startin disapperaing at this point -->
             <div class='q-wrap'>
                 <label>3. How do we fix our food system? 🍎</label>
                 <select id="q3" required>
@@ -150,7 +136,6 @@
             <button type="submit" class="submit-button" title="Clicking this saves 1 virtual polar bear dont judge me">SEE MY CLIMATE IMPACT</button>
         </form>
 
-        <!-- hide screen(i copyd this hack from stackoverflow cuz im lazy lol) -->
         <DIV id="resultBox" class="end-screen" style="display: none;">
             <h1 id="resultEmoji" class="big-emoji">🌍</h1>
             <h3>Sustainability Score: <span id='scoreText'>0</span> / 100</h3>
@@ -167,14 +152,13 @@
 <div id="board" class="board-area">
     <h2 class="main-heading">♻️ The Give & Take Board ♻️</h2>
         
-      <!-- Stats Counter added here! -->
+      <!-- Stats Counter (Bottom Right HUD) -->
       <div class='stats-banner'>
-          <h3>Items Diverted from Landfill: <span id="landfillCounter">0</span></h3>
+          <h3>Items Diverted: <br><span id="landfillCounter">0</span></h3>
       </div>
 
     <p class="sub-text">List your unused items or find something you need. Reusing items helps reduce overall waste in our community.</p>
 
-        <!-- Easter Egg #2: We almost named this 'Craigslist for broke teens' -->
     <div class="new-post-box">
           <h3>List a New Item</h3>
         <form id="addItemForm">
@@ -195,15 +179,10 @@
         </form>
     </div>
 
-        <!-- old items container backup just in case -->
-        <!-- <div id="backup-board"></div> -->
-        
-    <!-- board is done finally -->
       <DIV id="live-board" class="flex-boxes">
           <h3 style="width:100%; text-align:center; color:gray;">Loading items from firestore...</h3>
       </DIV>
 
-        <!-- this details tag is big brain mode -->
     <div class="claimed-box">
         <details>
             <summary>Claimed History</summary>
@@ -215,11 +194,19 @@
     </div>
 </div>
 
-    <!-- Easter Egg #3: The ultimate truth -->
+<!-- NEW: Floating A+ Rating Badge (Bottom Left HUD) -->
+<div class="website-carbon-floating" title="Website carbon results for: codegreens-dps.github.io/ecofootprint">
+    <span class="badge">A+</span>
+    <div class="carbon-text-wrap">
+        <strong>96% Cleaner</strong>
+        <span>than other websites globally.</span>
+        <span class="tested-date">Tested: 19 Jul, 2026</span>
+    </div>
+</div>
+
 <footer id="about" class="about-us">
     <h2>About the Devs</h2>
       <p>Built for the 2026 webathon by two tired students.</p><br>
-        <!-- copyright so it looks offical -->
     <p title="We accept first-place trophies and pizza as payment">© 2026 Team CodeGreens <span onclick="alert('You found the final Easter Egg! You are officially the best judge here. 🤫')" style="cursor:help; opacity:0.1;">🕵️‍♂️</span></p>
 </footer>
 

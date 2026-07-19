@@ -36,51 +36,82 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--green); border: 3px solid black; }
 ::-webkit-scrollbar-thumb:hover { background: var(--orange); border-color: black; }
 
-/* --- NEW: GREEN STATS BAR - JUDGE BAIT (Perfectly Aligned) --- */
+
+/* --- UPGRADED: GREEN STATS BAR - Distinct Modules & Fully Responsive --- */
 .green-stats-bar { 
     background-color: #020202; 
-    border-bottom: 2px solid var(--green); 
+    border-bottom: 3px solid var(--green); 
     display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 12px 30px; 
-    font-size: 0.9rem; 
+    justify-content: center; 
+    align-items: stretch; 
+    padding: 15px 20px; 
     box-shadow: 0 4px 20px rgba(46, 204, 113, 0.2); 
     z-index: 100000; 
     position: relative; 
     flex-wrap: wrap; 
     gap: 20px; 
 }
-.website-carbon { display: flex; align-items: center; gap: 12px; font-weight: 600; color: #eee; flex: 1; min-width: 300px; }
+
+/* Module 1: Website Carbon (Green Theme) */
+.website-carbon { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    gap: 15px; 
+    background: rgba(46, 204, 113, 0.05); 
+    border: 1px solid rgba(46, 204, 113, 0.3);
+    padding: 15px 20px; 
+    border-radius: 8px;
+    font-weight: 600; 
+    color: #eee; 
+    flex: 1 1 400px; /* Fluid flex: expands but wraps at 400px */
+    text-align: center;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
 .website-carbon .badge { 
     background-color: var(--green); color: black; font-family: "Orbitron", sans-serif; font-weight: 900; 
-    padding: 4px 10px; border-radius: 4px; box-shadow: 0 0 10px var(--green); 
-    animation: glowPulse 2s infinite alternate; letter-spacing: 1px; flex-shrink: 0;
+    padding: 6px 12px; border-radius: 4px; box-shadow: 0 0 15px var(--green); 
+    animation: glowPulse 2s infinite alternate; letter-spacing: 1px; flex-shrink: 0; font-size: 1.1rem;
 }
-.website-carbon strong { color: var(--green); text-shadow: 0 0 5px rgba(46,204,113,0.5); }
-.tested-date { color: #666; font-size: 0.75rem; font-family: monospace; white-space: nowrap; }
+.website-carbon strong { color: var(--green); text-shadow: 0 0 5px rgba(46,204,113,0.5); font-size: 1.05rem;}
+.tested-date { color: #888; font-size: 0.8rem; font-family: monospace; display: block; margin-top: 5px; }
+.carbon-text-wrap { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
 
-.grid-intensity { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: flex-end; flex: 1.5; }
-.grid-intensity label { color: var(--yellow); font-weight: 800; font-family: "Orbitron", sans-serif; text-transform: uppercase; font-size: 0.8rem; text-shadow: 0 0 5px rgba(255,215,0,0.4); white-space: nowrap; }
+/* Module 2: Local Grid Intensity (Yellow/Tech Theme) */
+.grid-intensity { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    gap: 20px; 
+    flex-wrap: wrap; 
+    background: rgba(255, 215, 0, 0.05); 
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 15px 20px; 
+    border-radius: 8px;
+    flex: 1 1 450px; /* Fluid flex: wraps beautifully on tablets/phones */
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+.grid-intensity label { color: var(--yellow); font-weight: 800; font-family: "Orbitron", sans-serif; text-transform: uppercase; font-size: 0.85rem; text-shadow: 0 0 5px rgba(255,215,0,0.4); white-space: nowrap; }
 .grid-intensity select { 
-    background: black; color: white; border: 2px solid var(--yellow); padding: 8px 12px; 
+    background: black; color: white; border: 2px solid var(--yellow); padding: 10px 15px; 
     font-family: monospace; font-weight: bold; outline: none; cursor: pointer; 
-    box-shadow: 0 0 8px rgba(255,215,0,0.2); transition: all 0.2s; border-radius: 4px;
+    box-shadow: 0 0 8px rgba(255,215,0,0.2); transition: all 0.2s; border-radius: 4px; font-size: 0.9rem;
 }
-.grid-intensity select:focus { border-color: var(--green); box-shadow: 0 0 12px rgba(46,204,113,0.6); transform: scale(1.02); }
+.grid-intensity select:focus { border-color: var(--green); box-shadow: 0 0 15px rgba(46,204,113,0.6); transform: scale(1.03); }
 
-/* --- Visual Grid Meter CSS (Sleek Fitting) --- */
+/* Meter inside Module 2 */
 .intensity-display { 
     display: flex; flex-direction: column; justify-content: center; gap: 6px; 
-    min-width: 260px; max-width: 300px; background: #0a0a0a; border: 1px dashed var(--green); 
-    padding: 8px 15px; border-radius: 4px; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); 
+    flex: 1 1 200px; min-width: 220px; background: #050505; border: 1px dashed var(--yellow); 
+    padding: 10px 15px; border-radius: 4px; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); 
 }
 .intensity-readout { font-family: monospace; color: white; text-shadow: 0 0 8px rgba(255,255,255,0.4); text-align: center; display: flex; align-items: baseline; justify-content: center; gap: 5px; }
-#intensityValue { font-size: 1.4rem; font-weight: 900; color: var(--green); text-shadow: 0 0 8px var(--green); line-height: 1; }
-.meter-wrapper { width: 100%; height: 8px; background-color: #222; border-radius: 4px; overflow: hidden; border: 1px solid #000; box-shadow: inset 0 1px 3px rgba(0,0,0,0.9); }
+#intensityValue { font-size: 1.5rem; font-weight: 900; color: var(--green); text-shadow: 0 0 8px var(--green); line-height: 1; transition: color 0.5s ease; }
+.meter-wrapper { width: 100%; height: 10px; background-color: #222; border-radius: 5px; overflow: hidden; border: 1px solid #000; box-shadow: inset 0 2px 5px rgba(0,0,0,0.9); margin: 5px 0; }
 .meter-fill { height: 100%; width: 0%; background-color: var(--green); transition: width 1s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 1s ease; box-shadow: 0 0 10px currentColor; }
-.intensity-status { font-size: 0.75rem; font-family: "Orbitron", sans-serif; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
+.intensity-status { font-size: 0.75rem; font-family: "Orbitron", sans-serif; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.5s ease; }
 /* --- END OF GREEN STATS BAR --- */
+
 
 .top-nav { 
     background-color: rgba(0, 0, 0, 0.85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); 
@@ -195,18 +226,23 @@ body {
 footer { background-color: black; background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(46, 204, 113, 0.2) 2px, rgba(46, 204, 113, 0.2) 4px); color: white; text-align: center; padding: 70px 20px; font-weight: bold; border-top: 12px solid var(--green); box-shadow: 0 -10px 40px rgba(46,204,113,0.2); margin-top: auto; } /* hacked in retro scanlines using tiny repeating gradients in neon green - untouched perfection */
 footer h2 { font-family: "Orbitron", sans-serif; color: var(--green); margin-bottom: 15px; font-size: 2.4rem; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px rgba(46,204,113,0.8), 3px 3px 0px rgba(46,204,113,0.4); }
 
-@media (max-width: 900px) { 
-    .green-stats-bar { flex-direction: column; text-align: center; justify-content: center; padding: 15px 20px; } 
-    .website-carbon { flex-direction: column; text-align: center; width: 100%; min-width: unset; } 
-    .grid-intensity { flex-direction: column; width: 100%; justify-content: center; } 
+/* The true responsive fix that makes everything look amazing on any device */
+@media (max-width: 950px) { 
+    .green-stats-bar { padding: 15px; } 
+    /* Modules collapse into full-width cards on mobile/tablets */
+    .website-carbon, .grid-intensity { flex: 1 1 100%; max-width: 100%; text-align: center; } 
+    .website-carbon { flex-direction: column; padding: 20px; }
+    .carbon-text-wrap { align-items: center; text-align: center; }
+    .grid-intensity { flex-direction: column; padding: 20px; gap: 15px; }
     .intensity-display { width: 100%; max-width: 100%; }
+    
     .top-nav { flex-direction: column; gap: 20px; padding: 25px; } 
     .banner h1 { font-size: 3rem; } 
     .stats-banner { position: relative; bottom: auto; right: auto; width: 90%; margin: 30px auto 50px auto; animation: none; box-shadow: 0 0 25px rgba(46,204,113,0.4); } 
     .info-box, .item-card { width: 100%; max-width: 450px; animation: none; } 
     .flex-inputs { flex-direction: column; gap: 0; } 
     .sim-area, .board-area, .threats-wrapper { padding: 60px 20px; } 
-} /* mobile view so the judges dont complain so iter had to hardcode this do not touch. disabled anti-gravity on mobile so phones dont explode */
+} 
 
 /* THE WINNER PROTOCOL CSS - UPGRADED TO GOD-TIER */
 .winner-mode { animation: hackerRainbow 3s linear infinite !important; } /* Turns the entire website into an infinite RGB gaming keyboard */

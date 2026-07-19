@@ -24,6 +24,8 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Ro
 
 /* --- UPGRADED: ENLARGED LOCAL INTENSITY API DASHBOARD PANEL --- */
 .api-card { background-color: rgba(10, 10, 10, 0.85); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border: 2px solid rgba(255, 230, 0, 0.7); border-top: 8px solid var(--yellow); padding: 50px 60px; /* Vastly increased padding */ width: 95%; max-width: 1400px; /* Expanded for a huge central dashboard */ box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 80px rgba(255,230,0,0.25); border-radius: 12px; display: grid; grid-template-columns: 1fr 1.5fr; grid-template-rows: auto auto; gap: 30px 60px; animation: floatInfinite 5s ease-in-out infinite alternate; cursor: crosshair; position: relative; margin: 60px auto; }
+/* Catch the cursor when the dashboard shifts up 10px */
+.api-card::before { content: ''; position: absolute; inset: 0; bottom: -10px; z-index: -1; }
 .api-card::after { content: 'LIVE DATA FEED'; position: absolute; top: -18px; left: 50%; transform: translateX(-50%); background: var(--yellow); color: black; font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 900; padding: 6px 20px; border-radius: 4px; letter-spacing: 1px; }
 .api-card:hover { transform: translateY(-10px) scale(1.01); box-shadow: 0 35px 90px rgba(0,0,0,0.95), 0 0 100px rgba(0,255,102,0.4); border-color: rgba(0, 255, 102, 0.8); border-top-color: var(--green); animation: none; z-index: 10; }
 .api-card:hover::after { background: var(--green); box-shadow: 0 0 25px var(--green); content: 'SYSTEM SECURE'; }
@@ -65,7 +67,7 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Ro
 
 .flex-boxes { display: flex; justify-content: center; align-items: stretch; gap: 40px; flex-wrap: wrap; max-width: 1300px; margin: 0 auto; } 
 .info-box { display: flex; flex-direction: column; align-items: center; background-color: var(--card-dark); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255,60,0,0.25); border-top: 4px solid var(--orange); padding: 45px 35px; width: 360px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.9); cursor: crosshair; border-radius: 8px; position: relative; overflow: hidden; } 
-.info-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(255,60,0,0.15) 0%, transparent 100%); pointer-events: none; }
+.info-box::before { content: ''; position: absolute; inset: 0; bottom: -15px; background: linear-gradient(180deg, rgba(255,60,0,0.15) 0%, transparent 100%); pointer-events: auto; }
 .info-box:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.95), 0 0 50px rgba(255,60,0,0.45); border-color: rgba(255,60,0,0.8); border-top-color: var(--orange); z-index: 10; } 
 .info-box h3 { font-family: "Orbitron", sans-serif; margin-bottom: 20px; color: white; font-size: 1.5rem; text-transform: uppercase; font-weight: 800; text-shadow: 0 2px 6px rgba(0,0,0,0.9); line-height: 1.3; }
 .box-emoji { font-size: 4.5rem; margin-bottom: 25px; display: inline-block; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.9)); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -121,7 +123,7 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Ro
 .claimed-box li:hover::before { left: 15px; opacity: 1; }
 
 .item-card { display: flex; flex-direction: column; background-color: var(--card-dark); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(0,255,102,0.25); border-top: 4px solid var(--green); padding: 40px; width: 360px; box-shadow: 0 20px 45px rgba(0,0,0,0.9); animation: fadeInUp 0.5s ease-out, floatInfinite 4.5s ease-in-out infinite alternate; cursor: crosshair; border-radius: 8px; position: relative; overflow: hidden; } 
-.item-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,255,102,0.12) 0%, transparent 100%); pointer-events: none; }
+.item-card::before { content: ''; position: absolute; inset: 0; bottom: -15px; background: linear-gradient(180deg, rgba(0,255,102,0.12) 0%, transparent 100%); pointer-events: auto; }
 .item-card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.95), 0 0 50px rgba(0,255,102,0.35); border-color: rgba(0,255,102,0.8); border-top-color: var(--green); z-index: 10; }
 .item-card h3 { font-family: "Orbitron", sans-serif; margin-bottom: 10px; color: white; font-size: 1.6rem; text-transform: uppercase; font-weight: 800; text-shadow: 0 2px 6px rgba(0,0,0,0.9); line-height: 1.3; }
 .card-icon { font-size: 4.5rem; margin-bottom: 20px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.9)); text-align: center; }
@@ -133,6 +135,18 @@ body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Ro
 .grab-btn:hover:not(:disabled) { background-color: var(--green); color: black; transform: translateY(-5px); box-shadow: 0 10px 35px rgba(0,255,102,0.5), 0 0 25px var(--green); }
 .grab-btn:active:not(:disabled) { transform: translateY(2px); }
 .grab-btn:disabled { background-color: rgba(255,255,255,0.05); color: #555; border-color: #333; box-shadow: none; cursor: not-allowed; transform: none; }
+
+/* Universal anti-flicker patch for buttons moving up 5px */
+.big-btn::after,
+.submit-button::after,
+.post-btn::after,
+.grab-btn::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    bottom: -5px;
+    z-index: -1;
+}
 
 /* ANIMATIONS YAY */
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
@@ -158,7 +172,8 @@ footer h2 { font-family: "Orbitron", sans-serif; color: white; margin-bottom: 20
     #intensityValue { font-size: 4rem; }
 }
 
-@media (max-width: 1024px) { 
+/* Expanded to 1350px so the floating HUD elements don't block the site on 13-inch laptops */
+@media (max-width: 1350px) { 
     .top-nav { flex-direction: column; gap: 25px; padding: 30px; text-align: center; } 
     .top-nav nav a { margin: 0 15px; }
     .banner h1 { font-size: 3.2rem; } 
